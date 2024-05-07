@@ -20,7 +20,7 @@ with open("pacientes.csv", "r") as infile:
 
 #PARA IMPRIMIR SIEMPRE LAS HORAS DISPONIBLES
 def imprimirHorasDisponibles(diccionarioDisponibilidad):
-    print("SE INGRESA AL METODO imprimirHorasDisponibles")
+    # print("SE INGRESA AL METODO imprimirHorasDisponibles")
     for key, value in diccionarioDisponibilidad.items():
         print(key, value)
 
@@ -56,36 +56,49 @@ def calculoHorasDisponibles(paciente):
 
 #PARA BUSCAR PACIENTE Y OBTENER SUS DATOS Y SUS EXAMENES
 def obtenerDatosPaciente(paciente):
-    print("SE INGRESA AL METODO obtenerDatosPaciente")
+    # print("SE INGRESA AL METODO obtenerDatosPaciente")
     if paciente in archivoPacientes:
         # print("Nombre paciente: " + paciente + " Examenes: " + str(archivoPacientes[paciente]))
         return archivoPacientes[paciente]
 
 #PARA BUSCAR HORAS Y SI PACIENTE SE PUEDE ATENDER
-def revisarHoraPaciente(paciente):
-    print("SE INGRESA AL METODO revisarHoraPaciente")
-    imprimirHorasDisponibles(diccionarioDisponibilidad) 
-    examenNoDisponible = ""
-    print("Se ha atendido con éxito a " + str(paciente.upper()))
-    print("No es posible atender a " + str(paciente.upper()) + "porque no existen horas disponibles para el examen " + str(examenNoDisponible.upper()) + ".")
+# def revisarHoraPaciente(paciente):
+#     # print("SE INGRESA AL METODO revisarHoraPaciente")
+#     imprimirHorasDisponibles(diccionarioDisponibilidad) 
+#     examenNoDisponible = ""
+    # print("Se ha atendido con éxito a " + str(paciente.upper()))
+    # print("No es posible atender a " + str(paciente.upper()) + "porque no existen horas disponibles para el examen " + str(examenNoDisponible.upper()) + ".")
 
 
-    
+def agregarHorasExamen(examenes):
+    for key in diccionarioDisponibilidad.keys():
+        for exam in examenes:
+            if key == exam:
+                diccionarioDisponibilidad[key.strip()] = diccionarioDisponibilidad[key.strip()]+1
+    # imprimirHorasDisponibles(diccionarioDisponibilidad)
+
 accionIngresada = " "
 while accionIngresada != "STOP":
     imprimirHorasDisponibles(diccionarioDisponibilidad)
     accion = input("Bienvenido, ingrese la instrucción a continuación: ")
     opcionIngresada = accion.split(" ")
     accionIngresada = opcionIngresada[0].upper()
-    nombrePaciente = opcionIngresada[1].capitalize()
+    print(nombrePaciente)
     if accionIngresada == "STOP":
         print("accion STOP")
         break
     elif accionIngresada == "AGREGAR":
-        print("accion agregar")
+        examenes = []
+        examenesParaAgregar = accion.lstrip("agregar ")
+        examenes = examenesParaAgregar.split(" ")
+        # print("EXAMENES PARA AGREGAR: " + str(examenes))
+        agregarHorasExamen(examenes)
+        # print("EXAMENES PARA AGREGAR: " + examenesParaAgregar)
+        # print("accion agregar")
     elif accionIngresada == "ATENDER":
+        nombrePaciente = opcionIngresada[1].capitalize()
         # obtenerDatosPaciente(nombrePaciente)
         calculoHorasDisponibles(nombrePaciente)
         # revisarHoraPaciente(nombrePaciente)        
-        print("Accion atender")
+        # print("Accion atender")
 
