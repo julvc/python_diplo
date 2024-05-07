@@ -1,0 +1,4 @@
+resonancia_magnetica 1
+glucosa 5
+pcr 12
+hormonas_tiroideas 3

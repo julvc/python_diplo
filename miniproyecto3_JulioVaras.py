@@ -5,7 +5,6 @@ diccionarioDisponibilidad = {}
 paciente = ""
 # nombreExamenpaciente = ""
 nombrePaciente = ""
-pacienteAtendido = False
 for linea in archivoDisponibilidad:
     key, value = linea.split(" ")
     diccionarioDisponibilidad[key.strip()] = int(value.strip())
@@ -22,36 +21,68 @@ with open("pacientes.csv", "r") as infile:
 def imprimirHorasDisponibles(diccionarioDisponibilidad):
     # print("SE INGRESA AL METODO imprimirHorasDisponibles")
     for key, value in diccionarioDisponibilidad.items():
-        print(key, value)
+        print(str(key).upper()+": " +str(value))
 
 #CALCULO DE PACIENTE Y HORAS DISPONIBLES
 def calculoHorasDisponibles(paciente):
-    nombreExamen = ""
+    # nombreExamen = ""
+    nombreExamenFaltante = ""
     contador = 0
-    print("SE INGRESA AL METODO calculoHorasDisponibles")
     pacienteTmp = obtenerDatosPaciente(paciente)
-    # print(pacienteTmp)
-    print(" total examenes: " + str(len(pacienteTmp)))
+    pacienteAtendido = True
+    # diccionarioDisponibilidadTmp = []
+    # print(" total examenes: " + str(len(pacienteTmp)))
+    # print(" total examenes valores: " + str(pacienteTmp))
+    
+    #RECORRER PARA VALIDAR QUE ESTAN TODOS LOS EXAMENES DISPONIBLES
     for key in diccionarioDisponibilidad.keys():
         for pac in pacienteTmp:
             if key == pac:
-                nombreExamen = key
-                contador+=1
-                #TODO: REALIZAR OPERACIONES DE RESTA SI ES MAYOR A 0 DEVOLVER MENSAJE
-                # print("VALOR ENCONTRADO")
-                # print("NAME FOR KEY: " + key + " VALUE: " + str(diccionarioDisponibilidad[key.strip()]))
                 if diccionarioDisponibilidad.get(key) > 0:
-                    
-                    diccionarioDisponibilidad[key.strip()] = diccionarioDisponibilidad[key.strip()] -1
+                    contador+=1
                 else:
                     pacienteAtendido = False
+                    nombreExamenFaltante = key
+    
+    # print("VALOR CONTADOR: " + str(contador))
+    # print("LARGO EXAMENES: " + str(len(pacienteTmp)))
+    
+    if contador == len(pacienteTmp):
+        # print("NO SE PODRA EJECUTAR NINGUNA OPERACION. CONTADOR: " +str(contador) + " LARGO EXAMENES: " + str(len(pacienteTmp)))
+        for key in diccionarioDisponibilidad.keys():
+            for pac in pacienteTmp:
+                if key == pac:
+                    # nombreExamen = key
+                    if diccionarioDisponibilidad.get(key) > 0:                    
+                        diccionarioDisponibilidad[key.strip()] = diccionarioDisponibilidad[key.strip()] -1
+                    else:
+                        pacienteAtendido = False
+        # if diccionarioDisponibilidad.get(key) > 0:                    
+        #     diccionarioDisponibilidad[key.strip()] = diccionarioDisponibilidad[key.strip()] -1
+        # print("Se ha atendido con éxito a " + paciente.upper() +"!")
+    # else:
+        # print("No es posible atender a " + str(paciente.upper()) + " porque no existen horas disponibles para el examen " + str(nombreExamen.upper()) + ".")
+    # for key in diccionarioDisponibilidad.keys():
+    #     for pac in pacienteTmp:
+    #         if key == pac:
+    #             nombreExamen = key
+    #             contador+=1
+    #             #TODO: REALIZAR OPERACIONES DE RESTA SI ES MAYOR A 0 DEVOLVER MENSAJE
+    #             # print("VALOR ENCONTRADO")
+    #             # print("NAME FOR KEY: " + key + " VALUE: " + str(diccionarioDisponibilidad[key.strip()]))
+    #             if diccionarioDisponibilidad.get(key) > 0:                    
+    #                 diccionarioDisponibilidad[key.strip()] = diccionarioDisponibilidad[key.strip()] -1
+    #             else:
+    #                 pacienteAtendido = False
                 # print("NAME FOR KEY: " + key + " new VALUE: " + str(diccionarioDisponibilidad[key.strip()]))
-
-            if contador == len(pacienteTmp):
-                pacienteAtendido = True
-                print("Paciente fue atendido: " + pacienteAtendido)
-            else:
-                print("No es posible atender a " + str(paciente.upper()) + "porque no existen horas disponibles para el examen " + str(nombreExamen.upper()) + ".")
+    else:
+        print("No es posible atender a " + str(paciente.upper()) + " porque no existen horas disponibles para el examen " + str(nombreExamenFaltante.upper()) + ".")
+    # if pacienteAtendido == True & contador == len(pacienteTmp):
+    if pacienteAtendido == True:
+        # pacienteAtendido = True        
+        print("Se ha atendido con éxito a " + paciente.upper() +"!")
+    # else:
+    #     print("No es posible atender a " + str(paciente.upper()) + " porque no existen horas disponibles para el examen " + str(nombreExamenFaltante.upper()) + ".")
 
 
 #PARA BUSCAR PACIENTE Y OBTENER SUS DATOS Y SUS EXAMENES
@@ -83,9 +114,9 @@ while accionIngresada != "STOP":
     accion = input("Bienvenido, ingrese la instrucción a continuación: ")
     opcionIngresada = accion.split(" ")
     accionIngresada = opcionIngresada[0].upper()
-    print(nombrePaciente)
+    # print(nombrePaciente)
     if accionIngresada == "STOP":
-        print("accion STOP")
+        # print("accion STOP")
         break
     elif accionIngresada == "AGREGAR":
         examenes = []
