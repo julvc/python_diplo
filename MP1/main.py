@@ -1,10 +1,59 @@
+import csv
 # Parte 1: Cargar los datos
 def cargar_datos(lineas_archivo):
+    print("LLEGUE AL METODO CARGAR DATOS")
     # Completar
+    #lista de generos        
+    generoTmp = []
+    generos_peliculas = []
+    valueTmp = []
+    for genero in lineas_archivo:
+        print("DENTRO DEL FOR")   
+        generoTmp = genero.split(",")
+        #print(generoTmp[4])
+        valueTmp = generoTmp[4].split(";")
+        #print(valueTmp)
+        for var in valueTmp:
+            #print("var1: " + var)            
+            if var not in generos_peliculas:
+                print("var2: " + var)
+                generos_peliculas.append(var)
+                
+        print(generos_peliculas)
+        #for index,value in enumerate(valueTmp, start=0):
+        #    if value[index] not in generos_peliculas:
+        #        generos_peliculas.append(value[index])
+        #        print(generos_peliculas)
+            
+        #for value in generoTmp[4]:
+        #    print(value)
+            
+        #    valueTmp = []
+        #    valueTmp = value[4].split(";")            
+        #    print(valueTmp)            
+        #    for var in valueTmp:
+        #        if var not in generos_peliculas:
+        #            generos_peliculas.append(var)
+        #            print(generos_peliculas)
+        
+        
+        #posicion = str(genero.rfind(','))
+        #generoTmp = genero.slice(posicion)
+        #print(generoTmp)
+        ##print("GENERO OBTENIDO: " + str(genero[posicion:]))
+        ##generos_peliculas.append(genero[posicion:])
+        # print("genero_split: " + genero_split[1]) 
+        # generos_peliculas.append(genero_split[1])
+        
+        
+    #lista de tuplas (genero,[pelicula])
+    peliculas_por_genero = [()]
+    #lista de tuplas (titulo,popularidad,voto_promedio,cantidad_votos,[generos])
+    info_peliculas =([])
     pass
 
 
-# Parte 2: Completar las consultas
+# # Parte 2: Completar las consultas
 def obtener_puntaje_y_votos(nombre_pelicula):
     # Cargar las lineas con la data del archivo
     lineas_archivo = leer_archivo()
@@ -24,6 +73,15 @@ def obtener_estadisticas(genero_pelicula, criterio):
     lineas_archivo = leer_archivo()
     # Completar con lo que falta aquí
     pass
+
+
+
+
+
+
+
+
+
 
 
 # NO ES NECESARIO MODIFICAR DESDE AQUI HACIA ABAJO
