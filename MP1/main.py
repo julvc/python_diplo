@@ -1,25 +1,66 @@
 import csv
 # Parte 1: Cargar los datos
 def cargar_datos(lineas_archivo):
-    print("LLEGUE AL METODO CARGAR DATOS")
     # Completar
-    #lista de generos        
+    #lista de generos_peliculas        
     generoTmp = []
-    generos_peliculas = []
+    pelisTmp = []
     valueTmp = []
+    generos_peliculas = []
+    peliculas_por_genero = []
+    pelisTuple = tuple()
+    pelisList = []
+    info_peliculas =()
+#OBTENCION DE GENEROS DE PELICULAS
     for genero in lineas_archivo:
-        print("DENTRO DEL FOR")   
         generoTmp = genero.split(",")
-        #print(generoTmp[4])
         valueTmp = generoTmp[4].split(";")
-        #print(valueTmp)
         for var in valueTmp:
-            #print("var1: " + var)            
             if var not in generos_peliculas:
-                print("var2: " + var)
                 generos_peliculas.append(var)
+    #print(generos_peliculas)
+
+    print(str(len(generos_peliculas)))
+#OBTENCION DE NOMBRE PELICULAS POR GENERO
+    for genero in generos_peliculas:
+        #print("genero " + str(genero))
+        for pelis in lineas_archivo:
+            pelisTmp = pelis.split(",")
+            listado_genero = [pelisTmp[4].replace(";",",")]
+            for generos in listado_genero:
+                if genero in generos:
+                    #print(genero + " generos: " + generos)
+                    if pelisTmp[0] not in pelisList:
+                        #print(" pelisTmp[0]" + pelisTmp[0])                        
+                        #print("genero : " + genero)
+                        #print("valor split: " + pelisTmp[4])
+                        pelisList.append(pelisTmp[0])
+                        #print("LISTADO PELIS: " , pelisList)
+                        #break
+                        #print("Se agrego pelicula a listado " + pelisTmp[0])
+        #break
+        #print("LISTADO genero y PELIS: " + (genero,pelisList))
+        pelisTuple = (genero,pelisList)    
+        print("pelituple: " , pelisTuple) 
+        peliculas_por_genero.append(pelisTuple)
+    
+    print(peliculas_por_genero)
                 
-        print(generos_peliculas)
+    
+    #for pelisPorGenero in lineas_archivo:
+    #    #print("lineas archivo1Star Wars: The Last Jedi,44.365,6.8,13984,Adventure;Action;Science Fiction" )
+    #    for genero in generos_peliculas:
+    #        print("LARGO DE GENEROS PELICULAS " + str(len(generos_peliculas)))
+    #        pelisTmp = pelisPorGenero.split(",")
+    #        if genero in pelisTmp[4]:
+    #            print("genero: " + genero + " nombre peli: " + pelisTmp[0] + " generos sin agrupar: " + pelisTmp[4])
+        
+        
+#genero: Adventure nombre peli: Star Wars: The Last Jedi generos sin agrupar: Adventure;Action;Science Fiction
+#genero: Action nombre peli: Star Wars: The Last Jedi generos sin agrupar: Adventure;Action;Science Fiction
+        
+        
+    #lista de peliculas por genero          
         #for index,value in enumerate(valueTmp, start=0):
         #    if value[index] not in generos_peliculas:
         #        generos_peliculas.append(value[index])
@@ -47,9 +88,9 @@ def cargar_datos(lineas_archivo):
         
         
     #lista de tuplas (genero,[pelicula])
-    peliculas_por_genero = [()]
+    
     #lista de tuplas (titulo,popularidad,voto_promedio,cantidad_votos,[generos])
-    info_peliculas =([])
+    
     pass
 
 
