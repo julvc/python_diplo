@@ -1,28 +1,19 @@
-import csv
+
+generos_peliculas = []
+peliculas_por_genero = []
+info_peliculas = []
+
 # Parte 1: Cargar los datos
 def cargar_datos(lineas_archivo):
-    # Completar
-    generoTmp = []
-    pelisTmp = []
-    valueTmp = []
-    generos_peliculas = []
-    peliculas_por_genero = []
     pelisTuple = tuple()
     pelisList = []
     infoTuple = ()
-    info_peliculas = []
-    
-#OBTENCION DE NOMBRE PELICULAS POR GENERO
-    for pelis in lineas_archivo:
-        pelisTmp = pelis.split(",")
-        listado_genero = [pelisTmp[4].replace(";",",")]
-        #print(pelisTmp[0],pelisTmp[1],pelisTmp[2],pelisTmp[3],listado_genero)
-        infoTuple = (pelisTmp[0],pelisTmp[1],pelisTmp[2],pelisTmp[3],listado_genero)
-        info_peliculas.append(infoTuple)
-        print(info_peliculas)
-
-    print(info_peliculas)
-
+    generoTmp = []
+    pelisTmp = []
+    valueTmp = []
+    #generos_peliculas = []
+    #peliculas_por_genero = []
+    #info_peliculas = []
 #OBTENCION DE GENEROS DE PELICULAS
     for genero in lineas_archivo:
         generoTmp = genero.split(",")
@@ -41,65 +32,43 @@ def cargar_datos(lineas_archivo):
                     if pelisTmp[0] not in pelisList:
                         pelisList.append(pelisTmp[0])
         pelisTuple = (genero,pelisList)    
-        print("pelituple: " , pelisTuple) 
+        #print("pelituple: " , pelisTuple) 
         peliculas_por_genero.append(pelisTuple)
     
-    print(peliculas_por_genero)
-                
+    #print(peliculas_por_genero)           
 
-    #for pelisPorGenero in lineas_archivo:
-    #    #print("lineas archivo1Star Wars: The Last Jedi,44.365,6.8,13984,Adventure;Action;Science Fiction" )
-    #    for genero in generos_peliculas:
-    #        print("LARGO DE GENEROS PELICULAS " + str(len(generos_peliculas)))
-    #        pelisTmp = pelisPorGenero.split(",")
-    #        if genero in pelisTmp[4]:
-    #            print("genero: " + genero + " nombre peli: " + pelisTmp[0] + " generos sin agrupar: " + pelisTmp[4])
-        
-        
-#genero: Adventure nombre peli: Star Wars: The Last Jedi generos sin agrupar: Adventure;Action;Science Fiction
-#genero: Action nombre peli: Star Wars: The Last Jedi generos sin agrupar: Adventure;Action;Science Fiction
-        
-        
-    #lista de peliculas por genero          
-        #for index,value in enumerate(valueTmp, start=0):
-        #    if value[index] not in generos_peliculas:
-        #        generos_peliculas.append(value[index])
-        #        print(generos_peliculas)
-            
-        #for value in generoTmp[4]:
-        #    print(value)
-            
-        #    valueTmp = []
-        #    valueTmp = value[4].split(";")            
-        #    print(valueTmp)            
-        #    for var in valueTmp:
-        #        if var not in generos_peliculas:
-        #            generos_peliculas.append(var)
-        #            print(generos_peliculas)
-        
-        
-        #posicion = str(genero.rfind(','))
-        #generoTmp = genero.slice(posicion)
-        #print(generoTmp)
-        ##print("GENERO OBTENIDO: " + str(genero[posicion:]))
-        ##generos_peliculas.append(genero[posicion:])
-        # print("genero_split: " + genero_split[1]) 
-        # generos_peliculas.append(genero_split[1])
-        
-        
-    #lista de tuplas (genero,[pelicula])
-    
-    #lista de tuplas (titulo,popularidad,voto_promedio,cantidad_votos,[generos])
-    
-    pass
+#OBTENCION DE NOMBRE PELICULAS POR GENERO
+    for pelis in lineas_archivo:
+        pelisTmp = pelis.split(",")
+        listado_genero = [pelisTmp[4].replace(";",",")]
+        infoTuple = (pelisTmp[0],pelisTmp[1],pelisTmp[2],pelisTmp[3],listado_genero)
+        info_peliculas.append(infoTuple)
+        #print(info_peliculas)
+
+    #retorna objetos creados
+    tuplaFinal = (generos_peliculas,peliculas_por_genero,info_peliculas)
+    return tuplaFinal
 
 
-# # Parte 2: Completar las consultas
+# Parte 2: Completar las consultas
+#obtener_puntaje_y_votos(nombre_pelicula): Esta función recibe un
+#string, que corresponde al nombre de una película y debe retornar una
+#tupla, donde el primer elemento debe ser el puntaje promedio de la
+#película y el segundo elemento debe ser la cantidad de votos que tiene.
+
+#titulo,popularidad,voto_promedio,cantidad_votos,generos
 def obtener_puntaje_y_votos(nombre_pelicula):
-    # Cargar las lineas con la data del archivo
-    lineas_archivo = leer_archivo()
-    # Completar con lo que falta aquí
-    pass
+    print("ENTRE AL METODO obtener_puntaje_y_votos. PELICULA: " + nombre_pelicula)
+    # Cargar las lineas con la data del archivo 
+    # 'The Hobbit: An Unexpected Journey', '55.68', '7.3', '17031', ['Adventure,Fantasy,Action']
+    #lineas_archivo = leer_archivo()
+    # Completar con lo que falta aquí 
+    result = tuple()
+    for value in info_peliculas:
+        if nombre_pelicula in value:
+            result = (value[2], value[3])
+    print("resultado" , result)
+    return result
 
 
 def filtrar_y_ordenar(genero_pelicula):
@@ -114,15 +83,6 @@ def obtener_estadisticas(genero_pelicula, criterio):
     lineas_archivo = leer_archivo()
     # Completar con lo que falta aquí
     pass
-
-
-
-
-
-
-
-
-
 
 
 # NO ES NECESARIO MODIFICAR DESDE AQUI HACIA ABAJO
@@ -144,7 +104,8 @@ def solicitar_accion():
 
 def leer_archivo():
     lineas_peliculas = []
-    with open("peliculas.csv", "r", encoding="utf-8") as datos:
+    rutaArchivo = "C:/Users/julia/Downloads/peliculas.csv"
+    with open(rutaArchivo, "r", encoding="utf-8") as datos:
         for linea in datos.readlines()[1:]:
             lineas_peliculas.append(linea.strip())
     return lineas_peliculas
