@@ -6,14 +6,11 @@ info_peliculas = []
 # Parte 1: Cargar los datos
 def cargar_datos(lineas_archivo):
     pelisTuple = tuple()
-    pelisList = []
     infoTuple = ()
     generoTmp = []
     pelisTmp = []
     valueTmp = []
-    #generos_peliculas = []
-    #peliculas_por_genero = []
-    #info_peliculas = []
+
 #OBTENCION DE GENEROS DE PELICULAS
     for genero in lineas_archivo:
         generoTmp = genero.split(",")
@@ -24,26 +21,32 @@ def cargar_datos(lineas_archivo):
 
 #OBTENCION DE NOMBRE PELICULAS POR GENERO
     for genero in generos_peliculas:
+        pelisList = []
         for pelis in lineas_archivo:
             pelisTmp = pelis.split(",")
             listado_genero = [pelisTmp[4].replace(";",",")]
+            #print(listado_genero)
             for generos in listado_genero:
                 if genero in generos:
+                    #print("genero: " , genero)
+                    #print("pelisTmp[0]: " , pelisTmp[0])
                     if pelisTmp[0] not in pelisList:
+                        #print("pelisTmp[0]: " , pelisTmp[0])
+                        #print("antes de append: " , pelisList)
                         pelisList.append(pelisTmp[0])
+                        #print("despues de append: " , pelisList)
+                        #break
+        
         pelisTuple = (genero,pelisList)    
         #print("pelituple: " , pelisTuple) 
         peliculas_por_genero.append(pelisTuple)
-    
-    #print(peliculas_por_genero)           
 
-#OBTENCION DE NOMBRE PELICULAS POR GENERO
+#OBTENCION DE OTROS DATOS DE PELICULAS
     for pelis in lineas_archivo:
         pelisTmp = pelis.split(",")
-        listado_genero = [pelisTmp[4].replace(";",",")]
+        listado_genero = pelisTmp[4].split(";")
         infoTuple = (pelisTmp[0],pelisTmp[1],pelisTmp[2],pelisTmp[3],listado_genero)
         info_peliculas.append(infoTuple)
-        #print(info_peliculas)
 
     #retorna objetos creados
     tuplaFinal = (generos_peliculas,peliculas_por_genero,info_peliculas)
@@ -58,31 +61,66 @@ def cargar_datos(lineas_archivo):
 
 #titulo,popularidad,voto_promedio,cantidad_votos,generos
 def obtener_puntaje_y_votos(nombre_pelicula):
-    print("ENTRE AL METODO obtener_puntaje_y_votos. PELICULA: " + nombre_pelicula)
-    # Cargar las lineas con la data del archivo 
-    # 'The Hobbit: An Unexpected Journey', '55.68', '7.3', '17031', ['Adventure,Fantasy,Action']
-    #lineas_archivo = leer_archivo()
-    # Completar con lo que falta aquí 
     result = tuple()
     for value in info_peliculas:
         if nombre_pelicula in value:
             result = (value[2], value[3])
-    print("resultado" , result)
     return result
 
 
 def filtrar_y_ordenar(genero_pelicula):
-    # Cargar las lineas con la data del archivo
-    lineas_archivo = leer_archivo()
-    # Completar con lo que falta aquí
-    pass
+    result = []
+    #[item for item in a if item[0] == 1]
+    #[item for item in a if 1 in item]
+    for value in peliculas_por_genero:
+        if genero_pelicula in value:
+            result = sorted(value[1], reverse=True)
+            break
 
+    return result
 
 def obtener_estadisticas(genero_pelicula, criterio):
-    # Cargar las lineas con la data del archivo
-    lineas_archivo = leer_archivo()
-    # Completar con lo que falta aquí
-    pass
+    popularidad_list = []
+    votoPromedio_list = []
+    cantidadVotos_list = []
+    result = []
+    
+    if str(criterio).lower() == "popularidad":
+        for popularity in info_peliculas:
+            if genero_pelicula in popularity[4]:
+                popularidad_list.append(eval(popularity[1]))
+    elif str(criterio).lower() == "voto promedio":
+        for votoPromedio in info_peliculas:
+            if genero_pelicula in votoPromedio[4]:
+                votoPromedio_list.append(eval(votoPromedio[2]))
+    elif str(criterio).lower() == "cantidad votos":
+        for votos in info_peliculas:
+            if genero_pelicula in votos[4]:
+                cantidadVotos_list.append(eval(votos[3]))
+    
+    if len(popularidad_list) > 0:
+        minValue = min(popularidad_list)
+        maxValue = max(popularidad_list)
+        averValue = sum(popularidad_list)/len(popularidad_list)
+        #result = [round(maxValue), round(minValue), round(averValue)]
+        result = [maxValue, minValue, round(averValue,2)]
+        print(result)
+    
+    if len(votoPromedio_list) > 0:
+        minValue = min(votoPromedio_list)
+        maxValue = max(votoPromedio_list)
+        averValue = sum(votoPromedio_list)/len(votoPromedio_list)
+        #result = [round(maxValue,2), round(minValue,2), round(averValue,2)]
+        result = [maxValue,minValue,round(averValue,2)]
+    
+    if len(cantidadVotos_list) > 0:
+        minValue = min(cantidadVotos_list)
+        maxValue = max(cantidadVotos_list)
+        averValue = sum(cantidadVotos_list)/len(cantidadVotos_list)
+        #result = [round(maxValue), round(minValue), round(averValue)]
+        result = [maxValue,minValue,round(averValue,2)]
+    
+    return result
 
 
 # NO ES NECESARIO MODIFICAR DESDE AQUI HACIA ABAJO
