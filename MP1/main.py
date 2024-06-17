@@ -142,8 +142,9 @@ def solicitar_accion():
 
 def leer_archivo():
     lineas_peliculas = []
-    rutaArchivo = "C:/Users/julia/Downloads/peliculas.csv"
-    with open(rutaArchivo, "r", encoding="utf-8") as datos:
+    #rutaArchivo = "C:/Users/julia/Downloads/peliculas.csv"
+    #with open(rutaArchivo, "r", encoding="utf-8") as datos:    
+    with open("peliculas.csv", "r", encoding="utf-8") as datos:
         for linea in datos.readlines()[1:]:
             lineas_peliculas.append(linea.strip())
     return lineas_peliculas
