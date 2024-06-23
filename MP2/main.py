@@ -90,8 +90,7 @@ class Automovil:
 #entregar la velocidad a la función avanzar. Para convertir un valor de km/h a
 #m/s, debes dividirlo por 3.6 
         velocidadConvertida = tiempo/3.6
-        kilometraje = avanzar(self.velocidad,velocidadConvertida)
-        print("METODO AVANZAR TIEMPO AUTO. Kilometraje: " , kilometraje)
+        avanzar(self.velocidad,velocidadConvertida)
 
     def acelerar_tiempo_auto(self, tiempo):
         self.aceleracion+=(tiempo * 0.5)
@@ -104,7 +103,6 @@ class Automovil:
             #print("DESPUES RUEDA: " + str(index) + " resistencia_actual: " + str(rueda.resistencia_actual) + " resistencia_total: " 
             #    + str(rueda.resistencia_total) + " estado: " + str(rueda.estado))
         self.aceleracion = 0
-        
         
     def frenar_auto(self, tiempo):
     #Primero debes transformar el tiempo de segundos a horas, y restar tiempo en horas * 0.5 al atributo aceleración.  OK
@@ -187,7 +185,6 @@ def accion(vehiculo, opcion):
         tiempo = round(float(input("Agregue aceleración: ")))
         tiempoAceleracion = round(tiempo/3600)
         if vehiculoNombre == "Automovil":
-            print("CALCULAR VELOCIDAD VEHICULO")
             newVehiculo.acelerar_tiempo_auto(tiempoAceleracion)
         elif vehiculoNombre == "Moto":
             print("OPCION ACELERAR MOTO")
@@ -201,11 +198,13 @@ def accion(vehiculo, opcion):
     elif opcion == 5:  # Cambiar rueda
         pass
     elif opcion == 6:  # Mostrar Estado
+        print("Vehiculo: {}. Año: {}, Velocidad: {}km/h, Kilometraje: {}".format(vehiculoNombre,newVehiculo.ano,round(newVehiculo.velocidad,2),newVehiculo.kilometraje))
+        print("Rueda delantera izquierda: {} \n".format(newVehiculo.ruedasList[0].estado)
+            +"Rueda delantera derecha: {} \n".format(newVehiculo.ruedasList[1].estado)
+            +"Rueda trasera izquierda: {} \n".format(newVehiculo.ruedasList[2].estado)
+            +"Rueda trasera derecha: {}".format(newVehiculo.ruedasList[3].estado))
         
         
-        print("Vehiculo: {}. Año: {}, Kilometraje: {}, segundos, llegando a una velocidad de {} km/h".format(tiempo,round(newVehiculo.velocidad,2)))
-        
-        pass
 
 
 def main():
