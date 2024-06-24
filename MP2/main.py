@@ -81,21 +81,18 @@ class Automovil:
         return f"Automóvil del año {self.ano}."
     
     def avanzar_tiempo_auto(self, tiempo):
-#Recibe como argumento un int que corresponde al tiempo
-#expresado en segundos. Incrementa el atributo kilometraje de acuerdo con
-#el resultado de la función avanzar definida previamente.
-#Recuerda que la velocidad almacenada en elatributo velocidad de la clase está medida en km/h y la función avanzar
-#necesita la velocidad en m/s, por lo que deberás primero convertirla antes de
-#entregar la velocidad a la función avanzar. Para convertir un valor de km/h a
-#m/s, debes dividirlo por 3.6 
-        velocidadConvertida = tiempo/3.6
-        avanzar(self.velocidad,velocidadConvertida)
+        velocidadConvertida = float(tiempo/3.6)
+        kilometraje = avanzar(self.velocidad,velocidadConvertida)
+        self.kilometraje+=kilometraje
 
     def acelerar_tiempo_auto(self, tiempo):
-        self.aceleracion+=(tiempo * 0.5)
-        self.velocidad+=(self.aceleracion * tiempo)
+        tiempoEnHoras = round(tiempo/3600)        
+        self.aceleracion+=(tiempoEnHoras * 0.5)
+        self.velocidad+=(self.aceleracion * tiempoEnHoras)
         self.avanzar_tiempo_auto(tiempo)
-        for index, rueda in enumerate(self.ruedasList):
+        
+        #for index, rueda in enumerate(self.ruedasList):
+        for rueda in self.ruedasList:
             #print("ANTES RUEDA: " + str(index) + " resistencia_actual: " + str(rueda.resistencia_actual) + " resistencia_total: " 
             #    + str(rueda.resistencia_total) + " estado: " + str(rueda.estado))
             rueda.gastar("acelerar", "automovil")
@@ -104,27 +101,17 @@ class Automovil:
         self.aceleracion = 0
         
     def frenar_auto(self, tiempo):
-    #Primero debes transformar el tiempo de segundos a horas, y restar tiempo en horas * 0.5 al atributo aceleración.  OK
-    # Luego, disminuye la velocidad del vehículo de acuerdo con el nuevo atributo aceleración, 
-    # con la fórmula velocidad += aceleración * tiempo en horas (dado que aceleración tendrá un valor negativo en ese momento, 
-    # realizar esta suma disminuirá la velocidad). Si la velocidad queda negativa, se tiene que dejar en 0. OK
-
-    # Después llama al método avanzar(tiempo) entregándole como atributo el tiempo en segundos recibido inicialmente 
-    # Luego, ejecuta el método gastar() de cada uno de los objetos guardados en la lista de ruedas entregándole como argumento 
-    # el string “frenar” y el string “automovil". OK
-    #Finalmente devuelve el atributo aceleración a 0 OK
-        tiempoConvertido = tiempo/3600
-        self.aceleracion-= tiempoConvertido * 0.5
-        self.velocidad+= self.aceleracion * tiempoConvertido
+        tiempoEnHoras = round(tiempo/3600)      
+        self.aceleracion-=(tiempoEnHoras * 0.5)
+        self.velocidad+=(self.aceleracion * tiempoEnHoras)
         if self.velocidad < 0:
             self.velocidad = 0
-        
+
         self.avanzar_tiempo_auto(tiempo)
-        for rueda in self.ruedas:
+        for rueda in self.ruedasList:
             rueda.gastar("frenar", "automovil")
-        
+
         self.aceleracion = 0
-        
         
     def obtener_kilometraje(self):
         return self.kilometraje
@@ -143,6 +130,7 @@ class Automovil:
                 #    print("Rueda listado nuevo: {} -- {} ".format(self.ruedasList[index], rueda.estado))
                 contador+=1
                 if contador >= 2:
+                    print("Se han reemplazado las ruedas con éxito")
                     break
             elif self.ruedasList[rueda].estado == "Gastada":
                 print(len(self.ruedasList))
@@ -154,9 +142,10 @@ class Automovil:
                 #    print("Rueda listado nuevo: {} -- {} ".format(self.ruedasList[index], rueda.estado))
                 contador+=1
                 if contador >= 2:
+                    print("Se han reemplazado las ruedas con éxito")
                     break
-            elif self.ruedasList[rueda].estado == "Usada":
-                print("RUEDA USADA {}".format(format(type(rueda).__name__)))
+            #elif self.ruedasList[rueda].estado == "Usada":
+            #    print("RUEDA USADA {}".format(format(type(rueda).__name__)))
         
 
 class Moto:
@@ -202,16 +191,24 @@ def accion(vehiculo, opcion):
     # Completar
     if opcion == 2:  # Acelerar
         tiempo = round(float(input("Agregue aceleración: ")))
-        tiempoAceleracion = round(tiempo/3600)
         if vehiculoNombre == "Automovil":
-            newVehiculo.acelerar_tiempo_auto(tiempoAceleracion)
+            newVehiculo.acelerar_tiempo_auto(tiempo)
         elif vehiculoNombre == "Moto":
             print("OPCION ACELERAR MOTO")
             #newVehiculo.acelerar_tiempo_auto(tiempoAceleracion)
         
         print("Se ha acelerado por {} segundos, llegando a una velocidad de {} km/h".format(tiempo,round(newVehiculo.velocidad,2)))
     elif opcion == 3:  # Frenar
-        pass
+        print("OPCION FRENAR AUTOMOVIL")
+        tiempo = round(float(input("Agregue tiempo de frenado: ")))
+        if vehiculoNombre == "Automovil":
+            newVehiculo.frenar_auto(tiempo)
+        elif vehiculoNombre == "Moto":
+            print("OPCION FRENAR AUTOMOVIL")
+            pass
+            #newVehiculo.acelerar_tiempo_auto(tiempoAceleracion)
+        
+        print("Se ha frenado por {} segundos, llegando a una velocidad de {} km/h".format(tiempo,round(newVehiculo.velocidad,2)))
     elif opcion == 4:  # Avanzar
         pass
     elif opcion == 5:  # Cambiar rueda
@@ -221,16 +218,20 @@ def accion(vehiculo, opcion):
         else:
             print("")
 
-        print("Se han reemplazado las ruedas con éxito")
     elif opcion == 6:  # Mostrar Estado
+        kilometraje = 0
+        if newVehiculo.kilometraje % 1 == 0:
+            kilometraje = int(newVehiculo.kilometraje)
+        else:
+            kilometraje = round(newVehiculo.kilometraje,2)
         if vehiculoNombre == "Automovil":
-            print("Vehiculo: {}. Año: {}, Velocidad: {}km/h, Kilometraje: {}".format(vehiculoNombre,newVehiculo.ano,round(newVehiculo.velocidad,2),newVehiculo.kilometraje))
+            print("Vehiculo: {}. Año: {}, Velocidad: {}km/h, Kilometraje: {}".format(vehiculoNombre,newVehiculo.ano,round(newVehiculo.velocidad,2),kilometraje))
             print("Rueda delantera izquierda: {} \n".format(newVehiculo.ruedasList[0].estado)
                 +"Rueda delantera derecha: {} \n".format(newVehiculo.ruedasList[1].estado)
                 +"Rueda trasera izquierda: {} \n".format(newVehiculo.ruedasList[2].estado)
                 +"Rueda trasera derecha: {}".format(newVehiculo.ruedasList[3].estado))
         else:
-            print("Vehiculo: {}. Año: {}, Velocidad: {}km/h, Kilometraje: {}".format(vehiculoNombre,newVehiculo.ano,round(newVehiculo.velocidad,2),newVehiculo.kilometraje))
+            print("Vehiculo: {}. Año: {}, Velocidad: {}km/h, Kilometraje: {}".format(vehiculoNombre,newVehiculo.ano,round(newVehiculo.velocidad,2),kilometraje))
             print("Rueda delantera: {} \n".format(newVehiculo.ruedasList[0].estado) +"Rueda trasera: {} \n".format(newVehiculo.ruedasList[1].estado))    
 
 def main():
