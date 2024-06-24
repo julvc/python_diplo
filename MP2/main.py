@@ -69,9 +69,8 @@ class Automovil:
     ruedasList.append(ruedaDelanteraDerecha)
     ruedasList.append(ruedaTraseraIzquierda)
     ruedasList.append(ruedaTraseraDerecha)
-    aceleracion = 0 #Corresponde a la aceleración del vehículo medida en km/h cuadrado2. Se inicializa en 0
-    velocidad = 0 #Corresponde a la velocidad del vehículo medida en km/h. Se inicializa en 0
-    
+    aceleracion = 0
+    velocidad = 0
     
     def __init__(self, kilometraje,ano):
         self.kilometraje = kilometraje
@@ -130,15 +129,35 @@ class Automovil:
     def obtener_kilometraje(self):
         return self.kilometraje
     
-    def reemplazar_rueda(self):
+    def reemplazar_rueda_auto(self):
+        print("entre a metodo reemplazar_rueda_auto ")
         contador = 0
         for rueda in range(len(self.ruedasList)):
-            if self.ruedasList[rueda] == "Rota":
+            if self.ruedasList[rueda].estado == "Rota":
+                print(len(self.ruedasList))
                 self.ruedasList.pop(rueda)
+                print(len(self.ruedasList))
                 self.ruedasList.insert(rueda,Rueda)
+                print(len(self.ruedasList))
+                #for index, rueda in enumerate(self.ruedasList):
+                #    print("Rueda listado nuevo: {} -- {} ".format(self.ruedasList[index], rueda.estado))
                 contador+=1
                 if contador >= 2:
                     break
+            elif self.ruedasList[rueda].estado == "Gastada":
+                print(len(self.ruedasList))
+                self.ruedasList.pop(rueda)
+                print(len(self.ruedasList))
+                self.ruedasList.insert(rueda,Rueda)
+                print(len(self.ruedasList))
+                #for index, rueda in enumerate(self.ruedasList):
+                #    print("Rueda listado nuevo: {} -- {} ".format(self.ruedasList[index], rueda.estado))
+                contador+=1
+                if contador >= 2:
+                    break
+            elif self.ruedasList[rueda].estado == "Usada":
+                print("RUEDA USADA {}".format(format(type(rueda).__name__)))
+        
 
 class Moto:
     # Completar
@@ -196,16 +215,23 @@ def accion(vehiculo, opcion):
     elif opcion == 4:  # Avanzar
         pass
     elif opcion == 5:  # Cambiar rueda
-        pass
-    elif opcion == 6:  # Mostrar Estado
-        print("Vehiculo: {}. Año: {}, Velocidad: {}km/h, Kilometraje: {}".format(vehiculoNombre,newVehiculo.ano,round(newVehiculo.velocidad,2),newVehiculo.kilometraje))
-        print("Rueda delantera izquierda: {} \n".format(newVehiculo.ruedasList[0].estado)
-            +"Rueda delantera derecha: {} \n".format(newVehiculo.ruedasList[1].estado)
-            +"Rueda trasera izquierda: {} \n".format(newVehiculo.ruedasList[2].estado)
-            +"Rueda trasera derecha: {}".format(newVehiculo.ruedasList[3].estado))
-        
-        
+        if vehiculoNombre == "Automovil":
+            print("INGRESE A OPCION 5")
+            newVehiculo.reemplazar_rueda_auto()
+        else:
+            print("")
 
+        print("Se han reemplazado las ruedas con éxito")
+    elif opcion == 6:  # Mostrar Estado
+        if vehiculoNombre == "Automovil":
+            print("Vehiculo: {}. Año: {}, Velocidad: {}km/h, Kilometraje: {}".format(vehiculoNombre,newVehiculo.ano,round(newVehiculo.velocidad,2),newVehiculo.kilometraje))
+            print("Rueda delantera izquierda: {} \n".format(newVehiculo.ruedasList[0].estado)
+                +"Rueda delantera derecha: {} \n".format(newVehiculo.ruedasList[1].estado)
+                +"Rueda trasera izquierda: {} \n".format(newVehiculo.ruedasList[2].estado)
+                +"Rueda trasera derecha: {}".format(newVehiculo.ruedasList[3].estado))
+        else:
+            print("Vehiculo: {}. Año: {}, Velocidad: {}km/h, Kilometraje: {}".format(vehiculoNombre,newVehiculo.ano,round(newVehiculo.velocidad,2),newVehiculo.kilometraje))
+            print("Rueda delantera: {} \n".format(newVehiculo.ruedasList[0].estado) +"Rueda trasera: {} \n".format(newVehiculo.ruedasList[1].estado))    
 
 def main():
     vehiculos = []
