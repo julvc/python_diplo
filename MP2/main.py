@@ -117,33 +117,28 @@ class Automovil:
         return self.kilometraje
     
     def reemplazar_rueda_auto(self):
-        print("entre a metodo reemplazar_rueda_auto ")
-        contador = 0
+        contadorGastada = 0
+        contadorRota = 0
         for rueda in range(len(self.ruedasList)):
             if self.ruedasList[rueda].estado == "Rota":
-                print(len(self.ruedasList))
                 self.ruedasList.pop(rueda)
-                print(len(self.ruedasList))
-                self.ruedasList.insert(rueda,Rueda)
-                print(len(self.ruedasList))
+                self.ruedasList.insert(rueda,Rueda())
                 #for index, rueda in enumerate(self.ruedasList):
                 #    print("Rueda listado nuevo: {} -- {} ".format(self.ruedasList[index], rueda.estado))
-                contador+=1
-                if contador >= 2:
-                    print("Se han reemplazado las ruedas con éxito")
+                contadorRota+=1
+                if contadorRota == 2:
                     break
             elif self.ruedasList[rueda].estado == "Gastada":
-                print(len(self.ruedasList))
                 self.ruedasList.pop(rueda)
-                print(len(self.ruedasList))
-                self.ruedasList.insert(rueda,Rueda)
-                print(len(self.ruedasList))
+                self.ruedasList.insert(rueda,Rueda())
                 #for index, rueda in enumerate(self.ruedasList):
                 #    print("Rueda listado nuevo: {} -- {} ".format(self.ruedasList[index], rueda.estado))
-                contador+=1
-                if contador >= 2:
-                    print("Se han reemplazado las ruedas con éxito")
+                contadorGastada+=1
+                if contadorGastada == 2 and contadorRota > 1 or contadorRota == 2:
                     break
+            
+        if contadorRota >1 or contadorGastada >1:
+            print("Se han reemplazado las ruedas con éxito")
             #elif self.ruedasList[rueda].estado == "Usada":
             #    print("RUEDA USADA {}".format(format(type(rueda).__name__)))
         
@@ -199,7 +194,6 @@ def accion(vehiculo, opcion):
         
         print("Se ha acelerado por {} segundos, llegando a una velocidad de {} km/h".format(tiempo,round(newVehiculo.velocidad,2)))
     elif opcion == 3:  # Frenar
-        print("OPCION FRENAR AUTOMOVIL")
         tiempo = round(float(input("Agregue tiempo de frenado: ")))
         if vehiculoNombre == "Automovil":
             newVehiculo.frenar_auto(tiempo)
@@ -210,10 +204,17 @@ def accion(vehiculo, opcion):
         
         print("Se ha frenado por {} segundos, llegando a una velocidad de {} km/h".format(tiempo,round(newVehiculo.velocidad,2)))
     elif opcion == 4:  # Avanzar
-        pass
+        tiempo = round(float(input("Agregue tiempo de desplazamiento: ")))
+        if vehiculoNombre == "Automovil":
+            newVehiculo.avanzar_tiempo_auto(tiempo)
+        elif vehiculoNombre == "Moto":
+            print("OPCION FRENAR AUTOMOVIL")
+            pass
+        
+        print("Se ha avanzado por {} segundos a una velocidad de {} km/h".format(tiempo,round(newVehiculo.velocidad,2)))
+
     elif opcion == 5:  # Cambiar rueda
         if vehiculoNombre == "Automovil":
-            print("INGRESE A OPCION 5")
             newVehiculo.reemplazar_rueda_auto()
         else:
             print("")
