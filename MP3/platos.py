@@ -4,15 +4,10 @@ from random import randint, choice, seed
 
 
 ### INICIO PARTE 1.1 ###
-#Esta clase debe poseer los siguientes atributos:
-#• nombre: Es un str que corresponde al nombre del plato. Este se recibe como
-#parámetro de inicialización.
-#• calidad: Es un int que representa la calidad del plato. Se inicializa en 0
 class Plato:
     def __init__(self,nombre):
         self.nombre=nombre
         self.calidad = 0
-    pass
 ### FIN PARTE 1.1 ###
 
 ### INICIO PARTE 1.2 ###
@@ -30,58 +25,69 @@ class Bebestible(Plato):
     dificultad = ""
     calidad = 0
     
-    
-    def __init__(self):
+    def __init__(self,nombre):
+        super().__init__(nombre)
         self.tamano = self.cargarTamano()
+        self.dificultad = self.cargarDificultad(self.tamano)
+        self.calidad = self.cargarCalidad()
     
     def cargarTamano(self):
-        for i in range(3):
-            if i == 1:
-                tamano = "Pequeño"
-                print("tamano: {}", format(tamano))
-            if i == 2:
-                tamano = "Mediano"
-                print("tamano: {}", format(tamano))
-            if i == 3:
-                tamano = "Grande"
-                print("tamano: {}", format(tamano))
-            value = tamano
+        i = randint(1,3)
+        if i == 1:
+            self.tamano = "Pequeño"
+        if i == 2:
+            self.tamano = "Mediano"
+        if i == 3:
+            self.tamano = "Grande"
+        value = self.tamano
     
         return value       
     
-    def cargarDificultad(self):
-        for i in range(3):
-            seed(1)
-            value = randint(1,3)
-            if i == 1:
-                print("OPCION: {}", value)
-                dificultad = 3
-            if i == 2:
-                print("OPCION: {}", value)
-                dificultad = 6
-            if i == 3:
-                print("OPCION: {}", value)
-                dificultad = 9
-            value = dificultad
+    def cargarDificultad(self, tamano):
+        if tamano == "Pequeño":
+            dificultad = 3
+        if tamano == "Mediano":
+            dificultad = 6
+        if tamano == "Grande":
+            dificultad = 9
+        value = dificultad
+        
         return value   
 
-    def cargarVariables(self):
-        for i in range(3):
-            seed(1)
-            randomCalidad = randint(3,8)
-            if i == 1:
-                calidad = randomCalidad
-            if i == 2:
-                calidad = randomCalidad
-            if i == 3:
-                calidad = randomCalidad
-            value = calidad
+    def cargarCalidad(self):
+        randomCalidad = randint(3,8)
+        calidad = randomCalidad
+        value = calidad
         return value 
 ### FIN PARTE 1.2 ###
 
 ### INICIO PARTE 1.3 ###
-class Comestible:
-    pass
+#Esta clase debe heredar de la clase Plato. Además, esta clase debe poseer los
+#siguientes atributos adicionales:
+#• dificultad: Es un int que representa la dificultad del plato. Debe inicializarse
+#en un número entero aleatorio entre 1 y 10
+#• calidad: Es un int que representa la calidad de un comestible. Debe
+#inicializarse en un número entero aleatorio entre 5 y 10.
+#Si ejecutas directamente el archivo platos.py, podrás probar si hay errores al
+#momento de definir las clases anteriores.
+class Comestible(Plato):
+    def __init__(self, nombre):
+        super().__init__(nombre)
+        self.dificultad = self.cargarDificultad()
+        self.calidad = self.cargarCalidad()
+        
+        
+    def cargarDificultad(self):
+        randomDificultad = randint(1,10)
+        calidad = randomDificultad
+        value = calidad
+        return value   
+
+    def cargarCalidad(self):
+        randomCalidad = randint(5,10)
+        calidad = randomCalidad
+        value = calidad
+        return value 
 ### FIN PARTE 1.3 ###
 
 
