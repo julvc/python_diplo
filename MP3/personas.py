@@ -32,31 +32,46 @@ class Repartidor(Persona):
 ### FIN PARTE 2.2 ###
 
 ### INICIO PARTE 2.3 ###
-class Cocinero(Persona):
-#También debe tener (como mínimo) el siguiente método:
-#• cocinar(informacion_plato): Recibe el argumento informacion_plato, que es
-#una lista con el nombre y el tipo del plato a cocinar, donde el tipo puede ser
-#"Bebestible" o "Comestible". Este método hace 2 cosas. Primero, debe crear
-#una instancia de la clase Bebestible o Comestible, dependiendo del tipo.
-#Luego disminuye la energía del cocinero según el plato. En caso de que se
-#haya cocinado un Bebestible, el cocinero pierde 5 de energía si el Bebestible
-#es “Pequeño”, 8 si es “Mediano” y 10 si es “Grande”. En cambio, si se cocinó
-#un Comestible, se pierde 15 de energía. Luego el parámetro calidad del plato
-#cocinado (bebestible o comestible) debe ser multiplicado por un
-#factor_calidad. Si la dificultad del plato es mayor a la habilidad del cocinero,
-#este factor es 0.7 y en caso contrario es 1.5. Finalmente, se debe retornar el
-#plato cocinado (es decir, la instancia creada)    
+class Cocinero(Persona):   
     def __init__(self, nombre, habilidad):
         super().__init__(nombre)
         self.habilidad = habilidad
         self.energia = randint(50, 80)
         
-    pass 
+    def cocinar(self,informacion_plato):
+        plato_cocinado = 0
+        for i in range(len(informacion_plato)):
+            print(type(i).__name__)
+            platoSplit = informacion_plato[i]
+            if type(i).__name__ == "Bebestible":
+                plato_cocinado = Bebestible(platoSplit[1])
+                if plato_cocinado.tamano == "Pequeño":
+                    self.energia -= 5
+                elif plato_cocinado.tamano == "Mediano":
+                    self.energia -= 8
+                else:
+                    self.energia -= 10
+            else:
+                plato_cocinado = Comestible(platoSplit[1])
+                self.energia -= 15
+                
+        if plato_cocinado.calidad > self.habilidad:
+            plato_cocinado.dificultad = plato_cocinado.dificultad * 0.7
+            
+        else:
+            plato_cocinado.dificultad = plato_cocinado.dificultad * 1.5
+        
+        return plato_cocinado
 ### FIN PARTE 2.3 ###
 
 ### INICIO PARTE 2.4 ###
-class Cliente:
-    pass
+class Cliente(Persona):
+    def __init__(self, nombre,platos_preferidos):
+        super().__init__(nombre)
+        self.platos_preferidos = platos_preferidos
+        
+    def recibir_pedido(self, pedido, demora):
+        pass        
 ### FIN PARTE 2.4 ###
 
 
