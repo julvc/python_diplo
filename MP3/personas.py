@@ -6,16 +6,51 @@ from platos import Comestible, Bebestible
 
 ### INICIO PARTE 2.1 ###
 class Persona:
-    pass
+    def __init__(self, nombre):
+        self.nombre = nombre
 ### FIN PARTE 2.1 ###
 
 ### INICIO PARTE 2.2 ###
-class Repartidor:
-    pass
+class Repartidor(Persona):
+    def __init__(self, nombre, tiempo_entrega):
+        self.nombre = nombre
+        self.tiempo_entrega = tiempo_entrega
+        self.energia = randint(75, 100)
+        
+    #recibe una lista de platos
+    def repartir(self,pedido):
+        tamanioPedidos = len(pedido)
+        tiempoDemora = 0
+        if tamanioPedidos <= 2:
+            self.energia-= 5
+            tiempoDemora = self.tiempo_entrega * 1.25
+        else:  
+            self.energia-= 15
+            tiempoDemora = self.tiempo_entrega * 0.85
+        
+        return tiempoDemora
 ### FIN PARTE 2.2 ###
 
 ### INICIO PARTE 2.3 ###
-class Cocinero:
+class Cocinero(Persona):
+#También debe tener (como mínimo) el siguiente método:
+#• cocinar(informacion_plato): Recibe el argumento informacion_plato, que es
+#una lista con el nombre y el tipo del plato a cocinar, donde el tipo puede ser
+#"Bebestible" o "Comestible". Este método hace 2 cosas. Primero, debe crear
+#una instancia de la clase Bebestible o Comestible, dependiendo del tipo.
+#Luego disminuye la energía del cocinero según el plato. En caso de que se
+#haya cocinado un Bebestible, el cocinero pierde 5 de energía si el Bebestible
+#es “Pequeño”, 8 si es “Mediano” y 10 si es “Grande”. En cambio, si se cocinó
+#un Comestible, se pierde 15 de energía. Luego el parámetro calidad del plato
+#cocinado (bebestible o comestible) debe ser multiplicado por un
+#factor_calidad. Si la dificultad del plato es mayor a la habilidad del cocinero,
+#este factor es 0.7 y en caso contrario es 1.5. Finalmente, se debe retornar el
+#plato cocinado (es decir, la instancia creada)    
+    def __init__(self, nombre, habilidad):
+        super().__init__(nombre)
+        self.habilidad = habilidad
+        self.energia = randint(50, 80)
+        
     pass 
 ### FIN PARTE 2.3 ###
 
