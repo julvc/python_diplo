@@ -116,9 +116,8 @@ if __name__ == "__main__":
         print(f"El cocinero {un_cocinero.nombre} tiene una habilidad: {un_cocinero.habilidad}")
         print(f"El repatidor {un_repartidor.nombre} tiene una tiempo de entrega: {un_repartidor.tiempo_entrega} seg")
         print(f"El cliente {un_cliente.nombre} tiene los siguientes platos favoritos:")
-        for plato in un_cliente.platos_preferidos:
-            print(plato)
-            #print(f" - {plato[1]}: {plato[0]}")
+        for index, value in enumerate(un_cliente.platos_preferidos):
+            print(f"Plato {index+1}: {value}")
     except TypeError:
         print("Hay una cantidad incorrecta de argumentos en algún inicializador y/o todavía no defines una clase")
     except AttributeError:
