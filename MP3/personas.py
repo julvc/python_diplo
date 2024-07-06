@@ -68,11 +68,10 @@ class Cocinero(Persona):
 class Cliente(Persona):
     def __init__(self,nombre,platos_preferidos):
         super().__init__(nombre)
-        self.platos_preferidos = platos_preferidos
-
+        self.platos_preferidos = platos_preferidos #ES UN DICCIONARIO Y NO UNA LISTA
 
 #recibir_pedido(pedido, demora): Recibe como argumento el pedido, que es
-#una lista de objetos de la clase Bebestible o Comestible, y la demora, que es
+#un diccionario de objetos de la clase Bebestible o Comestible, y la demora, que es
 #un int que indica cuánto se demoró la entrega de los platos. 
 # Primero se debe definir una calificación que comienza en 10. 
 # Si la cantidad de platos en el pedido es menor a la cantidad de platos_preferidos del cliente o 
@@ -106,18 +105,19 @@ if __name__ == "__main__":
     ### Código para probar que tu clase haya sido creada correctamente  ###
     ### Corre directamente este archivo para que este código se ejecute ###
     try:
-        PLATOS_PRUEBA = [
-        "Jugo Natural",
-        "Empanadas",
-        ]
+        PLATOS_PRUEBA = {
+            "Bebestible": "Jugo Natural",
+            "Comestible": "Empanadas"
+        }
         un_cocinero = Cocinero("Cristian", randint(1, 10))
         un_repartidor = Repartidor("Tomás", randint(20, 30))
         un_cliente = Cliente("Alberto", PLATOS_PRUEBA)
         print(f"El cocinero {un_cocinero.nombre} tiene una habilidad: {un_cocinero.habilidad}")
         print(f"El repatidor {un_repartidor.nombre} tiene una tiempo de entrega: {un_repartidor.tiempo_entrega} seg")
         print(f"El cliente {un_cliente.nombre} tiene los siguientes platos favoritos:")
-        for index, value in enumerate(un_cliente.platos_preferidos):
-            print(f"Plato {index+1}: {value}")
+        for key, plato in un_cliente.platos_preferidos.items():
+            #print(f" - {plato[1]}: {plato[0]}")
+            print(f" - {key}: {plato}")
     except TypeError:
         print("Hay una cantidad incorrecta de argumentos en algún inicializador y/o todavía no defines una clase")
     except AttributeError:
