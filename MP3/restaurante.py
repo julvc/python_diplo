@@ -18,8 +18,8 @@ class Restaurante:
         repartidor = Repartidor()
         puedeCocinar = False
         listPlatosPreferidosClientes = []
-        pedidos = []
-        calificacionRestaurante = self.calificacion
+        pedidos = [] # PLATOS COCINADOS
+        calificacionRestaurante = self.calificacion  # CALIFICACION RESTAURANTE
         for i in range(len(clientes)):
             client = clientes[i]
             listPlatosPreferidosClientes.append(client.self.platos_preferidos)
@@ -40,8 +40,20 @@ class Restaurante:
                     pedidos.append(chef.self.cocinar(listPlatosPreferidosClientes[j]))
                     if chef.self.energia < 0:
                         break
-        
-        #RECORRER REPARTIDORES
+
+        for p in range(len(pedidos)):
+            #for r in range(len(repartidores)):
+            #RECORRER REPARTIDORES VERIFICAR SI ES LISTA O DICCIONARIO
+            if repartidor.energia > 0:
+                tiempoDemora = repartidor(pedidos[p])
+                #ENTREGA DE PEDIDO
+                calificacion = client.recibir_pedido(pedidos[p],tiempoDemora)
+                self.califacion += calificacion
+            else:
+                print("recibir_pedido(pedido, demora), un pedido vacío (lista vacía) y una demora igual a 0.")
+                client.recibir_pedido([],0)
+
+        self.califacion = self.califacion / len(clientes)
         pass
 # Debe modificar el valor del atributo calificación del restaurante según el siguiente proceso:
 #1. Por cada cliente de la lista clientes se obtienen todos sus platos
@@ -51,7 +63,7 @@ class Restaurante:
 #método cocinar(plato) para prepararlo y se agrega a una lista llamada
 #pedido (sólo se puede utilizar un cocinero con energía positiva paracocinar. 
 # Si no quedan cocineros que cumplan esta condición no se
-#cocina el plato). OK - PERO REVISAR ENERGIA DE COCINERO
+#cocina el plato). TODO: OK - PERO REVISAR ENERGIA DE COCINERO
 
 #3. Una vez que los platos se han cocinado, se calcula cuánto será la
 #demora del tiempo del pedido (la lista con todos los platos cocinados)
@@ -59,17 +71,17 @@ class Restaurante:
 #utilizar un repartidor con energía positiva para repartir. Si no quedan
 #repartidores que cumplan esta condición, se le entrega al cliente en
 #recibir_pedido(pedido, demora), un pedido vacío (lista vacía) y una
-#demora igual a 0.)
+#demora igual a 0.) TODO: OK - PERO REVISAR COMO RECIBO LISTADO O DICCIONARIO DE REPARTIDORES Y COMO RECORRER, VALIDAR ENERGIA REPARTIDOR
+
 #4. Se entrega el pedido y la demora al cliente con su método
 #recibir_pedido(pedido, demora).
+
 #5. Se actualiza la calificación del restaurante sumándole la calificación
 #que el cliente retorna en el paso anterior.
+
 #6. Una vez se hayan terminado de entregar todos los pedidos, se divide
 #la calificación final por la cantidad de clientes atendidos (largo de la
 #lista clientes).
-#Si ejecutas directamente el archivo restaurante.py, podrás probar si hay errores al
-#momento de definir la clase anterior.
-
 
 ### FIN PARTE 3 #
 
