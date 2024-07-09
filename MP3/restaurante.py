@@ -11,14 +11,13 @@ class Restaurante:
         self.repartidores = repartidores
         self.califacion = 0
 
-#Recibe el argumento clientes, que es una lista con objetos de la clase Cliente
     def recibir_pedidos(self,clientes):
         client = Cliente()
         chef = Cocinero()
         repartidor = Repartidor()
         puedeCocinar = False
-        listPlatosPreferidosClientes = []
-        pedidos = [] # PLATOS COCINADOS
+        listPlatosPreferidosClientes = {}
+        pedidos = {} # PLATOS COCINADOS
         calificacionRestaurante = self.calificacion  # CALIFICACION RESTAURANTE
         for i in range(len(clientes)):
             client = clientes[i]
@@ -48,16 +47,13 @@ class Restaurante:
                 tiempoDemora = repartidor(pedidos[p])
                 #ENTREGA DE PEDIDO
                 calificacion = client.recibir_pedido(pedidos[p],tiempoDemora)
-                self.califacion += calificacion
+                calificacionRestaurante += calificacion
             else:
                 print("recibir_pedido(pedido, demora), un pedido vacío (lista vacía) y una demora igual a 0.")
                 client.recibir_pedido([],0)
 
-        self.califacion = self.califacion / len(clientes)
+        self.califacion = calificacionRestaurante / len(clientes)
         pass
-# Debe modificar el valor del atributo calificación del restaurante según el siguiente proceso:
-#1. Por cada cliente de la lista clientes se obtienen todos sus platos
-#preferidos. OK
 
 #2. Luego, cada plato se cocina haciendo uso de algún cocinero y su
 #método cocinar(plato) para prepararlo y se agrega a una lista llamada
@@ -81,7 +77,7 @@ class Restaurante:
 
 #6. Una vez se hayan terminado de entregar todos los pedidos, se divide
 #la calificación final por la cantidad de clientes atendidos (largo de la
-#lista clientes).
+#lista clientes). TODO: OK - REVISAR CALIFICACION
 
 ### FIN PARTE 3 #
 
