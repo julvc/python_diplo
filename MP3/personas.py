@@ -3,7 +3,6 @@ from random import randint
 from platos import Comestible, Bebestible
 ## Si necesita agregar imports, debe agregarlos aquí arriba ##
 
-
 ### INICIO PARTE 2.1 ###
 class Persona:
     def __init__(self, nombre):
@@ -20,15 +19,18 @@ class Repartidor(Persona):
     #recibe una lista de platos
     def repartir(self,pedido):
         tamanioPedidos = len(pedido)
-        tiempoDemora = 0
-        if tamanioPedidos <= 2:
-            self.energia-= 5
-            tiempoDemora = self.tiempo_entrega * 1.25
-        else:  
-            self.energia-= 15
-            tiempoDemora = self.tiempo_entrega * 0.85
+        tiempo_entrega = 0
+        factor_tamano = 0
+        factor_velocidad = 0
+        if tamanioPedidos >= 0 or tamanioPedidos <= 2:
+            factor_tamano = 5
+            factor_velocidad = 1.25
+        else:
+            factor_tamano = 15
+            factor_velocidad = 0.85
         
-        return tiempoDemora
+        tiempo_entrega = factor_tamano * factor_velocidad
+        return tiempo_entrega
 ### FIN PARTE 2.2 ###
 
 ### INICIO PARTE 2.3 ###
@@ -39,29 +41,27 @@ class Cocinero(Persona):
         self.energia = randint(50, 80)
         
     def cocinar(self,informacion_plato):
-        plato_cocinado = 0
-        for i in range(len(informacion_plato)):
-            print(type(i).__name__)
-            platoSplit = informacion_plato[i]
-            if type(i).__name__ == "Bebestible":
-                plato_cocinado = Bebestible(platoSplit[1])
-                if plato_cocinado.tamano == "Pequeño":
-                    self.energia -= 5
-                elif plato_cocinado.tamano == "Mediano":
-                    self.energia -= 8
-                else:
-                    self.energia -= 10
-            else:
-                plato_cocinado = Comestible(platoSplit[1])
-                self.energia -= 15
-                
-        if plato_cocinado.calidad > self.habilidad:
-            plato_cocinado.dificultad = plato_cocinado.dificultad * 0.7
-            
+        preparacion = ""
+        factor_calidad = 0
+        if informacion_plato[1] == "Bebestible":
+            preparacion = Bebestible(informacion_plato[0])
         else:
-            plato_cocinado.dificultad = plato_cocinado.dificultad * 1.5
+            preparacion = Comestible(informacion_plato[0])
         
-        return plato_cocinado
+        if informacion_plato[1] == "Comestible":
+                self.energia -= 15
+        elif informacion_plato[1] == "Bebestible":
+            if preparacion.tamano == "Pequeño":
+                    self.energia -= 5
+            elif preparacion.tamano == "Mediano":
+                    self.energia -= 8
+            else:
+                    self.energia -= 10
+        if preparacion.calidad > self.habilidad:
+            preparacion.calidad = preparacion.dificultad * 0.7
+        else:
+            preparacion.calidad = preparacion.dificultad * 1.5
+        return preparacion
 ### FIN PARTE 2.3 ###
 
 ### INICIO PARTE 2.4 ###
@@ -70,33 +70,32 @@ class Cliente(Persona):
         super().__init__(nombre)
         self.platos_preferidos = platos_preferidos #ES UN DICCIONARIO Y NO UNA LISTA
 
-#recibir_pedido(pedido, demora): Recibe como argumento el pedido, que es
-#un diccionario de objetos de la clase Bebestible o Comestible, y la demora, que es
-#un int que indica cuánto se demoró la entrega de los platos. 
-# Primero se debe definir una calificación que comienza en 10. 
-# Si la cantidad de platos en el pedido es menor a la cantidad de platos_preferidos del cliente o 
-# si la demora es mayor o igual a 20, la calificación es dividida a la mitad. 
-# Luego, por cada plato, el cliente cambiará su calificación dependiendo de la calidad del plato.
-#Si la calidad del plato es mayor o igual a 11, a la calificación se le suma 1.5.
-#Si la calidad es menor o igual a 8, la calificación disminuye en 3, no pudiendo
-#este valor descender de 0. En cualquier otro caso la calificación se mantiene.
-#Finalmente se debe retornar la calificación que el cliente le ha asignado al
-#restaurante   
     def recibir_pedido(self, pedido, demora):
         calificacion = 10
-        if pedido < len(self.platos_preferidos) or demora >= 20:
-            calificacion = 5
+        if len(pedido) < len(self.platos_preferidos) or demora >= 20:
+            calificacion = calificacion / 2
         
-        for i in range(len(pedido)):
-            plato = pedido[i]
-            if plato.calidad >= 11:
-                calificacion += 1.5
-            if plato.calidad <= 8:
-                calificacion -= 3
-            if calificacion < 0:
-                calificacion = 0
+        for values in pedido.values():
+            bebestible = Bebestible("")
+            comestible = Comestible("")
+            if values.__class__.__name__ == "Bebestible":
+                bebestible = values
+                if bebestible.calidad >= 11:
+                    calificacion += 1.5
+                if bebestible.calidad <= 8:
+                    calificacion -= 3
+                if calificacion < 0:
+                    calificacion = 0
+            else:
+                comestible = values
+                if comestible.calidad >= 11:
+                    calificacion += 1.5
+                if comestible.calidad <= 8:
+                    calificacion -= 3
+                if calificacion < 0:
+                    calificacion = 0
             
-        return calificacion        
+        return calificacion         
 ### FIN PARTE 2.4 ###
 
 
@@ -106,8 +105,8 @@ if __name__ == "__main__":
     ### Corre directamente este archivo para que este código se ejecute ###
     try:
         PLATOS_PRUEBA = {
-            "Bebestible": "Jugo Natural",
-            "Comestible": "Empanadas"
+        "Pepsi": ["Pepsi", "Bebestible"],
+        "Mariscos": ["Mariscos", "Comestible"],
         }
         un_cocinero = Cocinero("Cristian", randint(1, 10))
         un_repartidor = Repartidor("Tomás", randint(20, 30))
@@ -115,7 +114,7 @@ if __name__ == "__main__":
         print(f"El cocinero {un_cocinero.nombre} tiene una habilidad: {un_cocinero.habilidad}")
         print(f"El repatidor {un_repartidor.nombre} tiene una tiempo de entrega: {un_repartidor.tiempo_entrega} seg")
         print(f"El cliente {un_cliente.nombre} tiene los siguientes platos favoritos:")
-        for key, plato in un_cliente.platos_preferidos.items():
+        for key, plato in un_cliente.platos_preferidos.values():
             #print(f" - {plato[1]}: {plato[0]}")
             print(f" - {key}: {plato}")
     except TypeError:

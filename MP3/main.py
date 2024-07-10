@@ -5,20 +5,12 @@ from restaurante import Restaurante
 ## Si necesita agregar imports, debe agregarlos aquí arriba ##
 
 ### INICIO PARTE 4 ###
-
-#crear_repartidores(): No recibe parámetros. Crea 2 repartidores de la clase
-#Repartidor (con sus parámetros correspondientes) y los agrega a una lista.
-#Finalmente retorna la lista - OK
 def crear_repartidores():
-    repartidorUno = Repartidor("Cristiano",25)
-    repartidorDos = Repartidor("Alexis", 30)
+    repartidorUno = Repartidor("Cristiano",30)
+    repartidorDos = Repartidor("Alexis", 25)
     listadoRepartidores = [repartidorUno, repartidorDos]
     return listadoRepartidores
 
-
-#• crear_cocineros(): No recibe parámetros. Crea 5 cocineros de la clase
-#Cocinero (con sus parámetros correspondientes) y los agrega a una lista.
-#Finalmente retorna la lista. - OK
 def crear_cocineros():
     cocineroUno = Cocinero("Alexa",10)
     cocineroDos = Cocinero("Monica",9)
@@ -28,57 +20,31 @@ def crear_cocineros():
     listadoCocineros = [cocineroUno,cocineroDos,cocineroTres,cocineroCuatro,cocineroCinco]
     return listadoCocineros    
 
-
-#• crear_clientes(): No recibe parámetros. Crea 5 clientes de la clase Cliente
-#(con sus parámetros correspondientes) y los agrega a una lista. Finalmente
-#retorna la lista.
 def crear_clientes():
     clienteUno = Cliente("Kobe", {
-    "Pepsi": ["Pepsi", "Bebestible"],
-    "Coca-Cola": ["Coca-Cola", "Bebestible"],
-    "Jugo Natural": ["Jugo Natural", "Bebestible"],
-    "Ceviche": ["Ceviche", "Comestible"],
-    "Papas fritas": ["Papas fritas", "Comestible"]
+    "Pepsi": ["Pepsi", "Bebestible"]
+    })
+        
+    clienteDos = Cliente("Shaq", {
+    "Jugo Natural": ["Jugo Natural", "Bebestible"]
     })
     
-    clienteDos = Cliente("Shaq", {
-    "Sprite": ["Sprite", "Bebestible"],
-    "Coca-Cola": ["Coca-Cola", "Bebestible"],
-    "Jugo Natural": ["Jugo Natural", "Bebestible"],
-    "Completo": ["Completo", "Comestible"],
-    "Papas fritas": ["Papas fritas", "Comestible"]
-    })
     clienteTres = Cliente("Alisa", {
-    "Cerveza": ["Cerveza", "Bebestible"],
-    "Margarita": ["Margarita", "Bebestible"],
-    "Jugo Natural": ["Jugo Natural", "Bebestible"],
-    "Chorillana": ["Chorillana", "Comestible"],
-    "Ensalada": ["Ensalada", "Comestible"]
+    "Jugo Natural": ["Jugo Natural", "Bebestible"]
     })
+    
     clienteCuatro = Cliente("Natalia", {
-    "Pepsi": ["Pepsi", "Bebestible"],
-    "Coca-Cola": ["Coca-Cola", "Bebestible"],
-    "Michelada": ["Michelada", "Bebestible"],
-    "Salmon ahumado": ["Salmon ahumado", "Comestible"],
-    "Puré de papas": ["Puré de papas", "Comestible"]
-    })
-    clienteCinco = Cliente("Stephen", {
-    "Michelada": ["Michelada", "Bebestible"],
-    "Coca-Cola": ["Coca-Cola", "Bebestible"],
     "Jugo Natural": ["Jugo Natural", "Bebestible"],
-    "Hamburguesa": ["Hamburguesa", "Comestible"],
-    "Papas fritas": ["Papas fritas", "Comestible"]
+    "Lomo a lo Pobre": ["Lomo a lo Pobre", "Comestible"]
+    })
+    
+    clienteCinco = Cliente("Stephen", {
+    "Coca-Cola": ["Coca-Cola", "Bebestible"],
+    "Papas Duqueza": ["Papas Duqueza", "Comestible"]
     })
     listadoClientes = [clienteUno,clienteDos, clienteTres, clienteCuatro, clienteCinco]
     return listadoClientes
 
-#• crear_restaurante(): No recibe parámetros. Crea una variable cocineros, cuyo
-#valor es el retorno de la función crear_cocineros(). Luego crea una variable
-#repartidores, cuyo valor es el retorno de la función crear_repartidores()
-
-#Además, crea un restaurante de la clase Restaurante (con sus parámetros
-#correspondientes). Finalmente retorna la instancia del restaurante creado. (El
-#nombre del restaurante lo eliges tú)
 def crear_restaurante():
     dictPlatosPreferidos = {}
     cocineros = crear_cocineros()
@@ -89,7 +55,6 @@ def crear_restaurante():
         dictPlatosPreferidos.update(clientes[platos].platos_preferidos)
     
     restaurante = Restaurante("Pura hambre Restobar",dictPlatosPreferidos,cocineros,repartidores)
-    
     return restaurante
 
 ### FIN PARTE 4 ###
