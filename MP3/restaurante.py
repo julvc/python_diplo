@@ -21,8 +21,7 @@ class Restaurante:
         pedidos = {}
         calificacionRestaurante = self.calificacion  # CALIFICACION RESTAURANTE
         for i in range(len(clientes)):
-            client = clientes[i]
-            listPlatosPreferidosClientes.update(client.platos_preferidos)
+            listPlatosPreferidosClientes[clientes[i].platos_preferidos[0]] = clientes[i].platos_preferidos[1]
 
         for c in range(len(self.cocineros)):
             chef = self.cocineros[c]
