@@ -46,15 +46,15 @@ def crear_clientes():
     return listadoClientes
 
 def crear_restaurante():
-    dictPlatosPreferidos = {}
+    #dictPlatosPreferidos = {}
     cocineros = crear_cocineros()
     repartidores = crear_repartidores()
     clientes = crear_clientes()
     
-    for platos in range(len(clientes)):
-        dictPlatosPreferidos.update(clientes[platos].platos_preferidos)
+    #for platos in range(len(clientes)):
+    #    dictPlatosPreferidos.update(clientes[platos].platos_preferidos)
     
-    restaurante = Restaurante("Pura hambre Restobar",dictPlatosPreferidos,cocineros,repartidores)
+    restaurante = Restaurante("Pura hambre Restobar",INFO_PLATOS,cocineros,repartidores)
     return restaurante
 
 ### FIN PARTE 4 ###
